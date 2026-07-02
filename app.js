@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════
    LUNARA — App JavaScript
-   GSAP/ScrollTrigger + Lenis + Watermark Animation
+   GSAP Animations + Lenis Smooth Scroll
    ═══════════════════════════════════════════ */
 
 (function () {
@@ -22,35 +22,62 @@
   }
   requestAnimationFrame(raf);
 
-  // Connect Lenis to GSAP ScrollTrigger
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
 
   /* ─────────────────────────────────────────
-     2. GSAP — Register Plugin
+     2. GSAP REGISTER
      ───────────────────────────────────────── */
   gsap.registerPlugin(ScrollTrigger);
 
   /* ─────────────────────────────────────────
-     3. WATERMARK — Massive "LUNARA" Text Animation
+     3. HERO — Character-by-character headline
+     ───────────────────────────────────────── */
+  const allChars = gsap.utils.toArray('.char');
+
+  gsap.to(allChars, {
+    opacity: 1,
+    y: '0%',
+    duration: 0.8,
+    stagger: 0.03,
+    ease: 'power3.out',
+    delay: 0.3,
+  });
+
+  // Scroll-out: characters slide back down
+  gsap.to(allChars, {
+    scrollTrigger: {
+      trigger: '.hero',
+      start: '40% top',
+      end: 'bottom top',
+      scrub: 1,
+    },
+    y: '-80%',
+    opacity: 0,
+    stagger: 0.01,
+    ease: 'none',
+  });
+
+  /* ─────────────────────────────────────────
+     4. HERO — Watermark "LUNARA" Animation
      ───────────────────────────────────────── */
   const wmLetters = gsap.utils.toArray('.wm-letter');
 
-  // ── Initial stagger-in animation ──
+  // Stagger-in on load
   gsap.to(wmLetters, {
     opacity: 1,
     y: 0,
-    duration: 1.4,
+    duration: 1.6,
     stagger: 0.08,
     ease: 'power3.out',
     delay: 0.1,
   });
 
-  // ── Scroll: letters spread apart, drift, and fade ──
+  // Scroll: letters spread apart, rotate, and fade
   wmLetters.forEach((letter, i) => {
-    const centerIndex = (wmLetters.length - 1) / 2;
-    const offsetFromCenter = i - centerIndex;
+    const center = (wmLetters.length - 1) / 2;
+    const offset = i - center;
 
     gsap.to(letter, {
       scrollTrigger: {
@@ -59,17 +86,17 @@
         end: 'bottom top',
         scrub: 1.2,
       },
-      x: offsetFromCenter * 60,
-      y: -120 + Math.abs(offsetFromCenter) * 20,
+      x: offset * 70,
+      y: -150 + Math.abs(offset) * 25,
       opacity: 0,
-      scale: 1.15,
-      rotateZ: offsetFromCenter * 2,
+      scale: 1.2,
+      rotateZ: offset * 3,
       ease: 'none',
     });
   });
 
   /* ─────────────────────────────────────────
-     4. GSAP — Hero Reveal Animations
+     5. HERO — General reveal-up elements
      ───────────────────────────────────────── */
   const heroReveals = document.querySelectorAll('.hero .reveal-up');
   heroReveals.forEach((el) => {
@@ -78,18 +105,31 @@
       opacity: 1,
       y: 0,
       duration: 1,
-      delay: 0.4 + delay,
+      delay: 0.5 + delay,
       ease: 'power3.out',
     });
   });
 
   /* ─────────────────────────────────────────
-     5. GSAP — Scroll-Triggered Reveals
+     6. PARALLAX — Blobs
      ───────────────────────────────────────── */
-  const scrollReveals = document.querySelectorAll(
-    '.features .reveal-up, .download .reveal-up'
-  );
-  scrollReveals.forEach((el) => {
+  document.querySelectorAll('.hero__blob').forEach((blob, i) => {
+    gsap.to(blob, {
+      y: 60 + i * 50,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.5,
+      },
+    });
+  });
+
+  /* ─────────────────────────────────────────
+     7. SCROLL REVEALS — Sections
+     ───────────────────────────────────────── */
+  document.querySelectorAll('.features .reveal-up, .download .reveal-up, .stats .reveal-up').forEach((el) => {
     const delay = parseFloat(getComputedStyle(el).getPropertyValue('--delay') || 0);
     gsap.to(el, {
       scrollTrigger: {
@@ -106,63 +146,74 @@
   });
 
   /* ─────────────────────────────────────────
-     6. GSAP — Feature Cards Stagger
+     8. FEATURE CARDS — Staggered with scale
      ───────────────────────────────────────── */
   const featureCards = gsap.utils.toArray('.feature-card');
   featureCards.forEach((card, i) => {
     gsap.to(card, {
       scrollTrigger: {
         trigger: card,
-        start: 'top 88%',
+        start: 'top 90%',
         toggleActions: 'play none none none',
       },
       opacity: 1,
       y: 0,
-      duration: 0.8,
-      delay: i * 0.12,
+      scale: 1,
+      duration: 0.7,
+      delay: (i % 3) * 0.1, // stagger per row
       ease: 'power3.out',
     });
   });
 
+  // Subtle tilt on hover (GSAP-powered)
+  featureCards.forEach((card) => {
+    card.addEventListener('mouseenter', () => {
+      gsap.to(card, {
+        rotateX: -2,
+        rotateY: 3,
+        duration: 0.4,
+        ease: 'power2.out',
+        transformPerspective: 800,
+      });
+    });
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, {
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    });
+  });
+
   /* ─────────────────────────────────────────
-     7. GSAP — Parallax Blobs
+     9. STAT COUNTERS — Animated numbers
      ───────────────────────────────────────── */
-  const blobs = document.querySelectorAll('.hero__blob');
-  blobs.forEach((blob, i) => {
-    const speed = 60 + i * 50;
-    gsap.to(blob, {
-      y: speed,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1.5,
+  const statNumbers = document.querySelectorAll('.stat-card__number');
+  statNumbers.forEach((el) => {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          onUpdate: () => {
+            el.textContent = Math.round(obj.val) + suffix;
+          },
+        });
       },
     });
   });
 
   /* ─────────────────────────────────────────
-     8. GSAP — Hero Logo Parallax
-     ───────────────────────────────────────── */
-  const heroLogo = document.querySelector('.hero__logo-img');
-  if (heroLogo) {
-    gsap.to(heroLogo, {
-      y: -40,
-      scale: 0.9,
-      opacity: 0.5,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.hero',
-        start: '30% top',
-        end: 'bottom top',
-        scrub: 1,
-      },
-    });
-  }
-
-  /* ─────────────────────────────────────────
-     9. GSAP — Download Watermark Parallax
+     10. DOWNLOAD — Watermark drift
      ───────────────────────────────────────── */
   const dlWatermark = document.querySelector('.download__watermark');
   if (dlWatermark) {
@@ -182,22 +233,35 @@
   }
 
   /* ─────────────────────────────────────────
-     10. NAVBAR — Scroll State
+     11. MARQUEE — Speed on scroll (GSAP)
+     ───────────────────────────────────────── */
+  const marqueeTrack = document.querySelector('.marquee__track');
+  if (marqueeTrack) {
+    gsap.to(marqueeTrack, {
+      scrollTrigger: {
+        trigger: '.marquee',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 0.5,
+      },
+      x: '-200px',
+      ease: 'none',
+    });
+  }
+
+  /* ─────────────────────────────────────────
+     12. NAVBAR — Scroll state
      ───────────────────────────────────────── */
   const navbar = document.getElementById('navbar');
   ScrollTrigger.create({
     start: 80,
     onUpdate: (self) => {
-      if (self.scroll() > 80) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
+      navbar.classList.toggle('scrolled', self.scroll() > 80);
     },
   });
 
   /* ─────────────────────────────────────────
-     11. MOBILE NAV TOGGLE
+     13. MOBILE NAV TOGGLE
      ───────────────────────────────────────── */
   const burger = document.getElementById('navBurger');
   const mobileNav = document.getElementById('mobileNav');
@@ -205,12 +269,8 @@
   burger.addEventListener('click', () => {
     burger.classList.toggle('active');
     mobileNav.classList.toggle('open');
-    document.body.style.overflow = mobileNav.classList.contains('open')
-      ? 'hidden'
-      : '';
+    document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
   });
-
-  // Close on link click
   mobileNav.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       burger.classList.remove('active');
@@ -220,7 +280,7 @@
   });
 
   /* ─────────────────────────────────────────
-     12. SMOOTH SCROLL — Anchor Links
+     14. SMOOTH ANCHOR LINKS
      ───────────────────────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
@@ -229,6 +289,94 @@
         e.preventDefault();
         lenis.scrollTo(target, { offset: -80 });
       }
+    });
+  });
+
+  /* ─────────────────────────────────────────
+     15. APPLE LIQUID GLASS (GSAP)
+     ───────────────────────────────────────── */
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('.liquid-glass').forEach(el => {
+    // Inject sheen element
+    const sheen = document.createElement('div');
+    sheen.classList.add('glass-sheen');
+    el.appendChild(sheen);
+
+    // Magnetic Hover & Sheen Sweep
+    if (!prefersReducedMotion) {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        
+        gsap.to(el, {
+          x: x * 0.15,
+          y: y * 0.15,
+          duration: 0.6,
+          ease: 'power3.out'
+        });
+      });
+
+      el.addEventListener('mouseenter', () => {
+        gsap.fromTo(sheen, 
+          { x: -el.offsetWidth - 100 },
+          { x: el.offsetWidth + 100, duration: 0.7, ease: 'power2.inOut' }
+        );
+      });
+
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, {
+          x: 0,
+          y: 0,
+          duration: 0.8,
+          ease: 'elastic.out(1, 0.3)'
+        });
+      });
+    }
+
+    // Press Scale
+    el.addEventListener('mousedown', () => {
+      gsap.to(el, {
+        scale: prefersReducedMotion ? 0.98 : 0.95,
+        duration: 0.3,
+        ease: 'power2.out'
+      });
+    });
+
+    el.addEventListener('mouseup', () => {
+      gsap.to(el, {
+        scale: 1,
+        duration: 0.5,
+        ease: prefersReducedMotion ? 'power2.out' : 'back.out(1.5)'
+      });
+    });
+    
+    el.addEventListener('mouseleave', () => {
+      gsap.to(el, {
+        scale: 1,
+        duration: 0.5,
+        ease: prefersReducedMotion ? 'power2.out' : 'back.out(1.5)'
+      });
+    });
+
+    // Ripple Effect on click
+    el.addEventListener('mousedown', (e) => {
+      const rect = el.getBoundingClientRect();
+      const rippleX = e.clientX - rect.left;
+      const rippleY = e.clientY - rect.top;
+
+      const ripple = document.createElement('div');
+      ripple.classList.add('glass-ripple');
+      ripple.style.left = `${rippleX}px`;
+      ripple.style.top = `${rippleY}px`;
+      ripple.style.width = ripple.style.height = `${Math.max(rect.width, rect.height) * 2}px`;
+      el.appendChild(ripple);
+
+      gsap.fromTo(ripple,
+        { scale: 0, opacity: 0.6 },
+        { scale: 1, opacity: 0, duration: 0.6, ease: 'power2.out', onComplete: () => ripple.remove() }
+      );
     });
   });
 
