@@ -413,4 +413,25 @@
     });
   });
 
+  /* ─────────────────────────────────────────
+     17. TOAST NOTIFICATIONS
+     ───────────────────────────────────────── */
+  const toast = document.getElementById('toast');
+  let toastTimeout;
+
+  document.querySelectorAll('a[href="#coming-soon"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      if (toast) {
+        clearTimeout(toastTimeout);
+        toast.classList.add('show');
+        
+        toastTimeout = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+    });
+  });
+
 })();
