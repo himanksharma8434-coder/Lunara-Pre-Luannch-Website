@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lunara — Experience the Future of Productivity</title>
-  <meta name="description" content="Lunara is the premium SaaS platform and mobile app that redefines how you work. Get early access to the most beautiful productivity suite ever built." />
-  <meta name="keywords" content="Lunara, SaaS, productivity, mobile app, premium" />
+  <meta name="description" content="Lunara is the premium SaaS platform and mobile app that redefines how you work. Get early access on Google Play." />
+  <meta name="keywords" content="Lunara, SaaS, productivity, mobile app, premium, Android" />
   <meta name="author" content="Lunara" />
   <meta property="og:title" content="Lunara — Experience the Future of Productivity" />
-  <meta property="og:description" content="The most beautiful productivity suite ever built. Get early access." />
+  <meta property="og:description" content="The most beautiful productivity suite ever built. Now on Google Play." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#FF007F" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="styles.css" />
@@ -28,7 +28,7 @@
   <nav class="navbar" id="navbar">
     <div class="navbar__inner">
       <a href="#" class="navbar__logo">
-        <span class="navbar__logo-icon">◑</span>
+        <img src="logo.png" alt="Lunara" class="navbar__logo-img" />
         <span class="navbar__logo-text">Lunara</span>
       </a>
       <ul class="navbar__links" id="navLinks">
@@ -57,26 +57,47 @@
        HERO SECTION
   ═══════════════════════════════════════════ -->
   <section class="hero" id="hero">
-    <!-- Parallax orbs (background decoration) -->
-    <div class="hero__orb hero__orb--1"></div>
-    <div class="hero__orb hero__orb--2"></div>
-    <div class="hero__orb hero__orb--3"></div>
+    <!-- Decorative gradient blobs -->
+    <div class="hero__blob hero__blob--1"></div>
+    <div class="hero__blob hero__blob--2"></div>
+    <div class="hero__blob hero__blob--3"></div>
 
-    <!-- 3D Canvas (Three.js) -->
-    <canvas id="heroCanvas" class="hero__canvas"></canvas>
+    <!-- Massive LUNARA watermark text -->
+    <div class="hero__watermark" id="heroWatermark" aria-hidden="true">
+      <span class="wm-letter">L</span><span class="wm-letter">U</span><span class="wm-letter">N</span><span class="wm-letter">A</span><span class="wm-letter">R</span><span class="wm-letter">A</span>
+    </div>
+
+    <!-- Floating particles (CSS only) -->
+    <div class="hero__particles" aria-hidden="true">
+      <span class="particle" style="--x:10%;--y:20%;--s:6px;--d:8s;--del:0s"></span>
+      <span class="particle" style="--x:25%;--y:60%;--s:4px;--d:12s;--del:2s"></span>
+      <span class="particle" style="--x:70%;--y:15%;--s:5px;--d:10s;--del:1s"></span>
+      <span class="particle" style="--x:85%;--y:50%;--s:3px;--d:14s;--del:3s"></span>
+      <span class="particle" style="--x:40%;--y:80%;--s:7px;--d:9s;--del:0.5s"></span>
+      <span class="particle" style="--x:60%;--y:35%;--s:4px;--d:11s;--del:4s"></span>
+      <span class="particle" style="--x:15%;--y:75%;--s:5px;--d:13s;--del:1.5s"></span>
+      <span class="particle" style="--x:90%;--y:25%;--s:3px;--d:15s;--del:2.5s"></span>
+      <span class="particle" style="--x:50%;--y:10%;--s:6px;--d:7s;--del:3.5s"></span>
+      <span class="particle" style="--x:35%;--y:45%;--s:4px;--d:16s;--del:5s"></span>
+    </div>
 
     <div class="hero__content">
       <div class="hero__text">
-        <p class="hero__eyebrow reveal-up">Launching 2026</p>
+        <!-- Logo showcase -->
+        <div class="hero__logo-showcase reveal-up">
+          <img src="logo.png" alt="Lunara App" class="hero__logo-img" />
+        </div>
+
+        <p class="hero__eyebrow reveal-up" style="--delay:.05s">Launching on Google Play</p>
         <h1 class="hero__headline">
-          <span class="reveal-up" style="--delay:.1s">Experience</span>
-          <span class="reveal-up hero__headline--accent" style="--delay:.2s">Lunara</span>
+          <span class="reveal-up" style="--delay:.15s">Experience</span>
+          <span class="reveal-up hero__headline--accent" style="--delay:.25s">Lunara</span>
         </h1>
-        <p class="hero__sub reveal-up" style="--delay:.35s">
-          The premium SaaS platform and mobile app that unifies your&nbsp;workflow,
+        <p class="hero__sub reveal-up" style="--delay:.4s">
+          The premium productivity platform that unifies your&nbsp;workflow,
           amplifies&nbsp;focus, and transforms how&nbsp;teams&nbsp;build&nbsp;together.
         </p>
-        <div class="hero__actions reveal-up" style="--delay:.5s">
+        <div class="hero__actions reveal-up" style="--delay:.55s">
           <a href="#download" class="btn btn--glow btn--lg">Get Early Access</a>
           <a href="#features" class="btn btn--ghost btn--lg">Learn More</a>
         </div>
@@ -84,7 +105,7 @@
     </div>
 
     <!-- Scroll indicator -->
-    <div class="hero__scroll-indicator reveal-up" style="--delay:.7s">
+    <div class="hero__scroll-indicator reveal-up" style="--delay:.75s">
       <div class="hero__scroll-mouse">
         <div class="hero__scroll-wheel"></div>
       </div>
@@ -93,7 +114,7 @@
   </section>
 
   <!-- ═══════════════════════════════════════════
-       FEATURES SHOWCASE (ScrollTrigger Pinned)
+       FEATURES SHOWCASE
   ═══════════════════════════════════════════ -->
   <section class="features" id="features">
     <div class="features__header">
@@ -101,46 +122,44 @@
       <h2 class="section-title reveal-up" style="--delay:.1s">Built for the way <br/><span class="text-gradient">you actually work</span></h2>
     </div>
 
-    <div class="features__pinned-wrapper">
-      <div class="features__sticky-container">
+    <div class="features__grid">
 
-        <!-- Feature 1 -->
-        <div class="feature-card glass-card" data-feature="0">
-          <div class="feature-card__icon">
-            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2"/><path d="M16 24l6 6 10-12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 class="feature-card__title">Intelligent Task Engine</h3>
-          <p class="feature-card__desc">AI-powered prioritization that learns your rhythm. Lunara surfaces what matters, buries what doesn't, and keeps you in flow state.</p>
+      <!-- Feature 1 -->
+      <div class="feature-card glass-card" data-feature="0">
+        <div class="feature-card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2"/><path d="M16 24l6 6 10-12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-
-        <!-- Feature 2 -->
-        <div class="feature-card glass-card" data-feature="1">
-          <div class="feature-card__icon">
-            <svg viewBox="0 0 48 48" fill="none"><rect x="8" y="8" width="32" height="32" rx="8" stroke="currentColor" stroke-width="2"/><path d="M18 20h12M18 28h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-          </div>
-          <h3 class="feature-card__title">Seamless Cross-Platform</h3>
-          <p class="feature-card__desc">Native on iOS, Android, and web. Your workspace follows you from pocket to desktop with zero friction and instant sync.</p>
-        </div>
-
-        <!-- Feature 3 -->
-        <div class="feature-card glass-card" data-feature="2">
-          <div class="feature-card__icon">
-            <svg viewBox="0 0 48 48" fill="none"><path d="M24 4v8M24 36v8M4 24h8M36 24h8M9.86 9.86l5.66 5.66M32.49 32.49l5.66 5.66M9.86 38.14l5.66-5.66M32.49 15.51l5.66-5.66" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </div>
-          <h3 class="feature-card__title">Real-Time Collaboration</h3>
-          <p class="feature-card__desc">Multiplayer workspaces with live cursors, threaded comments, and presence indicators. Build together as if you're side by side.</p>
-        </div>
-
-        <!-- Feature 4 -->
-        <div class="feature-card glass-card" data-feature="3">
-          <div class="feature-card__icon">
-            <svg viewBox="0 0 48 48" fill="none"><path d="M14 34c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="16" r="6" stroke="currentColor" stroke-width="2"/></svg>
-          </div>
-          <h3 class="feature-card__title">Privacy by Design</h3>
-          <p class="feature-card__desc">End-to-end encryption, zero-knowledge architecture, and SOC 2 compliance. Your data belongs to you—always.</p>
-        </div>
-
+        <h3 class="feature-card__title">Intelligent Task Engine</h3>
+        <p class="feature-card__desc">AI-powered prioritization that learns your rhythm. Lunara surfaces what matters, buries what doesn't, and keeps you in flow state.</p>
       </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card glass-card" data-feature="1">
+        <div class="feature-card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><rect x="8" y="8" width="32" height="32" rx="8" stroke="currentColor" stroke-width="2"/><path d="M18 20h12M18 28h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feature-card__title">Seamless Cross-Platform</h3>
+        <p class="feature-card__desc">Native on Android and web. Your workspace follows you from pocket to desktop with zero friction and instant sync.</p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card glass-card" data-feature="2">
+        <div class="feature-card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M24 4v8M24 36v8M4 24h8M36 24h8M9.86 9.86l5.66 5.66M32.49 32.49l5.66 5.66M9.86 38.14l5.66-5.66M32.49 15.51l5.66-5.66" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feature-card__title">Real-Time Collaboration</h3>
+        <p class="feature-card__desc">Multiplayer workspaces with live cursors, threaded comments, and presence indicators. Build together as if you're side by side.</p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-card glass-card" data-feature="3">
+        <div class="feature-card__icon">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M14 34c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="16" r="6" stroke="currentColor" stroke-width="2"/></svg>
+        </div>
+        <h3 class="feature-card__title">Privacy by Design</h3>
+        <p class="feature-card__desc">End-to-end encryption, zero-knowledge architecture, and SOC 2 compliance. Your data belongs to you—always.</p>
+      </div>
+
     </div>
   </section>
 
@@ -151,27 +170,23 @@
     <!-- Glow aura -->
     <div class="download__glow"></div>
 
+    <!-- Second watermark in the CTA section -->
+    <div class="download__watermark" aria-hidden="true">LUNARA</div>
+
     <div class="download__content">
-      <p class="section-eyebrow reveal-up">Available Soon</p>
-      <h2 class="section-title reveal-up" style="--delay:.1s">
-        Ready to experience <br/><span class="text-gradient">something extraordinary?</span>
+      <p class="section-eyebrow section-eyebrow--light reveal-up">Available on Google Play</p>
+      <h2 class="section-title section-title--light reveal-up" style="--delay:.1s">
+        Ready to experience <br/><span class="text-gradient-light">something extraordinary?</span>
       </h2>
       <p class="download__sub reveal-up" style="--delay:.2s">
         Join the waitlist and be the first to experience Lunara when we launch.
       </p>
       <div class="download__buttons reveal-up" style="--delay:.35s">
-        <a href="#" class="btn btn--download glass-card">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <a href="#" class="btn btn--play-store">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.5,12.92 20.16,13.19L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/></svg>
           <div>
-            <small>Download for</small>
-            <strong>iOS</strong>
-          </div>
-        </a>
-        <a href="#" class="btn btn--download glass-card">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M17.523 2.237a.625.625 0 0 0-.803.368l-1.33 3.5a10.653 10.653 0 0 0-6.78 0l-1.33-3.5a.625.625 0 0 0-1.17.436l1.296 3.39A9.97 9.97 0 0 0 2 15h20a9.97 9.97 0 0 0-5.406-8.569l1.296-3.39a.625.625 0 0 0-.367-.804zM8.5 12a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm7 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zM2 16v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4H2z"/></svg>
-          <div>
-            <small>Download for</small>
-            <strong>Android</strong>
+            <small>GET IT ON</small>
+            <strong>Google Play</strong>
           </div>
         </a>
       </div>
@@ -185,7 +200,7 @@
     <div class="footer__inner">
       <div class="footer__brand">
         <a href="#" class="navbar__logo">
-          <span class="navbar__logo-icon">◑</span>
+          <img src="logo.png" alt="Lunara" class="navbar__logo-img" />
           <span class="navbar__logo-text">Lunara</span>
         </a>
         <p class="footer__tagline">Redefining productivity, beautifully.</p>
@@ -231,19 +246,11 @@
   </footer>
 
   <!-- ═══════════════════════════════════════════
-       SCRIPTS (order matters)
+       SCRIPTS (GSAP + Lenis — no Three.js needed)
   ═══════════════════════════════════════════ -->
-  <!-- Three.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <!-- GSAP + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-  <!-- Lenis Smooth Scroll -->
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
-
-  <!-- App -->
   <script src="app.js"></script>
 </body>
 </html>

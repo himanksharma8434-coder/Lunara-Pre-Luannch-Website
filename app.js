@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════
    LUNARA — App JavaScript
-   Three.js · GSAP/ScrollTrigger · Lenis
+   GSAP/ScrollTrigger + Lenis + Watermark Animation
    ═══════════════════════════════════════════ */
 
 (function () {
@@ -28,162 +28,49 @@
   gsap.ticker.lagSmoothing(0);
 
   /* ─────────────────────────────────────────
-     2. THREE.JS — Interactive 3D Moon / Icosahedron
-     ───────────────────────────────────────── */
-  const canvas = document.getElementById('heroCanvas');
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    50,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
-  camera.position.z = 5;
-
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: true,
-  });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  // ── Main Icosahedron (solid body) ──
-  const icoGeo = new THREE.IcosahedronGeometry(1.5, 1);
-  const icoMat = new THREE.MeshStandardMaterial({
-    color: 0xff007f,
-    emissive: 0x4a0028,
-    roughness: 0.3,
-    metalness: 0.7,
-    flatShading: true,
-  });
-  const icoMesh = new THREE.Mesh(icoGeo, icoMat);
-  scene.add(icoMesh);
-
-  // ── Wireframe overlay ──
-  const wireGeo = new THREE.IcosahedronGeometry(1.65, 1);
-  const wireMat = new THREE.MeshBasicMaterial({
-    color: 0xff5cad,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.18,
-  });
-  const wireMesh = new THREE.Mesh(wireGeo, wireMat);
-  scene.add(wireMesh);
-
-  // ── Outer glow ring ──
-  const ringGeo = new THREE.TorusGeometry(2.2, 0.015, 16, 100);
-  const ringMat = new THREE.MeshBasicMaterial({
-    color: 0xff007f,
-    transparent: true,
-    opacity: 0.25,
-  });
-  const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-  ringMesh.rotation.x = Math.PI / 2.5;
-  scene.add(ringMesh);
-
-  // ── Second ring ──
-  const ring2Geo = new THREE.TorusGeometry(2.6, 0.008, 16, 120);
-  const ring2Mat = new THREE.MeshBasicMaterial({
-    color: 0xff5cad,
-    transparent: true,
-    opacity: 0.12,
-  });
-  const ring2Mesh = new THREE.Mesh(ring2Geo, ring2Mat);
-  ring2Mesh.rotation.x = Math.PI / 1.8;
-  ring2Mesh.rotation.y = Math.PI / 4;
-  scene.add(ring2Mesh);
-
-  // ── Floating particles ──
-  const particleCount = 200;
-  const particleGeo = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
-  for (let i = 0; i < particleCount * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * 12;
-  }
-  particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const particleMat = new THREE.PointsMaterial({
-    color: 0xff007f,
-    size: 0.015,
-    transparent: true,
-    opacity: 0.6,
-    sizeAttenuation: true,
-  });
-  const particles = new THREE.Points(particleGeo, particleMat);
-  scene.add(particles);
-
-  // ── Lights ──
-  const ambientLight = new THREE.AmbientLight(0x1a0a2e, 0.5);
-  scene.add(ambientLight);
-
-  const pointLight = new THREE.PointLight(0xff007f, 2, 15);
-  pointLight.position.set(3, 3, 4);
-  scene.add(pointLight);
-
-  const pointLight2 = new THREE.PointLight(0x6400c8, 1.5, 12);
-  pointLight2.position.set(-3, -2, 3);
-  scene.add(pointLight2);
-
-  const rimLight = new THREE.PointLight(0xff5cad, 1, 10);
-  rimLight.position.set(0, 4, -2);
-  scene.add(rimLight);
-
-  // ── Mouse tracking ──
-  const mouse = { x: 0, y: 0 };
-  const targetRotation = { x: 0, y: 0 };
-
-  document.addEventListener('mousemove', (e) => {
-    mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
-    mouse.y = (e.clientY / window.innerHeight - 0.5) * 2;
-  });
-
-  // ── Responsive ──
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-
-  // ── Render loop ──
-  const clock = new THREE.Clock();
-  function animate() {
-    requestAnimationFrame(animate);
-    const elapsed = clock.getElapsedTime();
-
-    // Smooth mouse-tracking rotation
-    targetRotation.x += (mouse.y * 0.3 - targetRotation.x) * 0.04;
-    targetRotation.y += (mouse.x * 0.3 - targetRotation.y) * 0.04;
-
-    // Icosahedron
-    icoMesh.rotation.x = elapsed * 0.15 + targetRotation.x;
-    icoMesh.rotation.y = elapsed * 0.2 + targetRotation.y;
-
-    // Wireframe
-    wireMesh.rotation.x = elapsed * 0.12 + targetRotation.x;
-    wireMesh.rotation.y = elapsed * 0.18 + targetRotation.y;
-
-    // Rings
-    ringMesh.rotation.z = elapsed * 0.1;
-    ring2Mesh.rotation.z = -elapsed * 0.08;
-
-    // Particles drift
-    particles.rotation.y = elapsed * 0.02;
-    particles.rotation.x = elapsed * 0.01;
-
-    // Pulsing emissive
-    const pulse = Math.sin(elapsed * 1.5) * 0.5 + 0.5;
-    icoMat.emissiveIntensity = 0.3 + pulse * 0.4;
-
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  /* ─────────────────────────────────────────
-     3. GSAP — Reveal Animations
+     2. GSAP — Register Plugin
      ───────────────────────────────────────── */
   gsap.registerPlugin(ScrollTrigger);
 
-  // ── Staggered hero reveals ──
+  /* ─────────────────────────────────────────
+     3. WATERMARK — Massive "LUNARA" Text Animation
+     ───────────────────────────────────────── */
+  const wmLetters = gsap.utils.toArray('.wm-letter');
+
+  // ── Initial stagger-in animation ──
+  gsap.to(wmLetters, {
+    opacity: 1,
+    y: 0,
+    duration: 1.4,
+    stagger: 0.08,
+    ease: 'power3.out',
+    delay: 0.1,
+  });
+
+  // ── Scroll: letters spread apart, drift, and fade ──
+  wmLetters.forEach((letter, i) => {
+    const centerIndex = (wmLetters.length - 1) / 2;
+    const offsetFromCenter = i - centerIndex;
+
+    gsap.to(letter, {
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.2,
+      },
+      x: offsetFromCenter * 60,
+      y: -120 + Math.abs(offsetFromCenter) * 20,
+      opacity: 0,
+      scale: 1.15,
+      rotateZ: offsetFromCenter * 2,
+      ease: 'none',
+    });
+  });
+
+  /* ─────────────────────────────────────────
+     4. GSAP — Hero Reveal Animations
+     ───────────────────────────────────────── */
   const heroReveals = document.querySelectorAll('.hero .reveal-up');
   heroReveals.forEach((el) => {
     const delay = parseFloat(getComputedStyle(el).getPropertyValue('--delay') || 0);
@@ -191,12 +78,14 @@
       opacity: 1,
       y: 0,
       duration: 1,
-      delay: 0.3 + delay,
+      delay: 0.4 + delay,
       ease: 'power3.out',
     });
   });
 
-  // ── Scroll-triggered reveals for other sections ──
+  /* ─────────────────────────────────────────
+     5. GSAP — Scroll-Triggered Reveals
+     ───────────────────────────────────────── */
   const scrollReveals = document.querySelectorAll(
     '.features .reveal-up, .download .reveal-up'
   );
@@ -216,7 +105,9 @@
     });
   });
 
-  // ── Feature cards stagger on scroll ──
+  /* ─────────────────────────────────────────
+     6. GSAP — Feature Cards Stagger
+     ───────────────────────────────────────── */
   const featureCards = gsap.utils.toArray('.feature-card');
   featureCards.forEach((card, i) => {
     gsap.to(card, {
@@ -234,12 +125,12 @@
   });
 
   /* ─────────────────────────────────────────
-     4. GSAP — Parallax Orbs
+     7. GSAP — Parallax Blobs
      ───────────────────────────────────────── */
-  const orbs = document.querySelectorAll('.hero__orb');
-  orbs.forEach((orb, i) => {
-    const speed = 80 + i * 60;
-    gsap.to(orb, {
+  const blobs = document.querySelectorAll('.hero__blob');
+  blobs.forEach((blob, i) => {
+    const speed = 60 + i * 50;
+    gsap.to(blob, {
       y: speed,
       ease: 'none',
       scrollTrigger: {
@@ -251,21 +142,47 @@
     });
   });
 
-  // ── 3D object fades/moves as user scrolls past hero ──
-  gsap.to(canvas, {
-    opacity: 0,
-    y: -80,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.hero',
-      start: '60% top',
-      end: 'bottom top',
-      scrub: 1,
-    },
-  });
+  /* ─────────────────────────────────────────
+     8. GSAP — Hero Logo Parallax
+     ───────────────────────────────────────── */
+  const heroLogo = document.querySelector('.hero__logo-img');
+  if (heroLogo) {
+    gsap.to(heroLogo, {
+      y: -40,
+      scale: 0.9,
+      opacity: 0.5,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: '30% top',
+        end: 'bottom top',
+        scrub: 1,
+      },
+    });
+  }
 
   /* ─────────────────────────────────────────
-     5. NAVBAR — Scroll State
+     9. GSAP — Download Watermark Parallax
+     ───────────────────────────────────────── */
+  const dlWatermark = document.querySelector('.download__watermark');
+  if (dlWatermark) {
+    gsap.fromTo(dlWatermark,
+      { x: '5%' },
+      {
+        x: '-5%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.download',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 2,
+        },
+      }
+    );
+  }
+
+  /* ─────────────────────────────────────────
+     10. NAVBAR — Scroll State
      ───────────────────────────────────────── */
   const navbar = document.getElementById('navbar');
   ScrollTrigger.create({
@@ -280,7 +197,7 @@
   });
 
   /* ─────────────────────────────────────────
-     6. MOBILE NAV TOGGLE
+     11. MOBILE NAV TOGGLE
      ───────────────────────────────────────── */
   const burger = document.getElementById('navBurger');
   const mobileNav = document.getElementById('mobileNav');
@@ -293,7 +210,7 @@
       : '';
   });
 
-  // Close mobile nav on link click
+  // Close on link click
   mobileNav.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       burger.classList.remove('active');
@@ -303,7 +220,7 @@
   });
 
   /* ─────────────────────────────────────────
-     7. SMOOTH SCROLL — Anchor Links
+     12. SMOOTH SCROLL — Anchor Links
      ───────────────────────────────────────── */
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (e) => {
