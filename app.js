@@ -57,6 +57,7 @@
     opacity: 0,
     stagger: 0.01,
     ease: 'none',
+    immediateRender: false
   });
 
   /* ─────────────────────────────────────────
@@ -92,6 +93,7 @@
       scale: 1.2,
       rotateZ: offset * 3,
       ease: 'none',
+      immediateRender: false
     });
   });
 
@@ -293,7 +295,38 @@
   });
 
   /* ─────────────────────────────────────────
-     15. APPLE LIQUID GLASS (GSAP)
+     15. COUNTDOWN TIMER
+     ───────────────────────────────────────── */
+  const launchDate = new Date();
+  launchDate.setDate(launchDate.getDate() + 14); // 14 days from now
+
+  const timerDays = document.getElementById('timer-days');
+  const timerHours = document.getElementById('timer-hours');
+  const timerMins = document.getElementById('timer-mins');
+  const timerSecs = document.getElementById('timer-secs');
+
+  if (timerDays && timerHours && timerMins && timerSecs) {
+    function updateTimer() {
+      const now = new Date();
+      const diff = Math.max(0, launchDate - now);
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / 1000 / 60) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      timerDays.textContent = days.toString().padStart(2, '0');
+      timerHours.textContent = hours.toString().padStart(2, '0');
+      timerMins.textContent = mins.toString().padStart(2, '0');
+      timerSecs.textContent = secs.toString().padStart(2, '0');
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  }
+
+  /* ─────────────────────────────────────────
+     16. APPLE LIQUID GLASS (GSAP)
      ───────────────────────────────────────── */
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
