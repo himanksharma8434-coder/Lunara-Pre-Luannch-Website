@@ -35,14 +35,14 @@ pricing_content = """
   <section class="pricing" id="pricing" style="padding-top: 150px; min-height: 80vh;">
     <div class="hero__blob hero__blob--2" style="top: 20%; right: -5%; opacity: 0.3;"></div>
     <div class="pricing__header">
-      <p class="section-eyebrow reveal-up">Pricing</p>
-      <h2 class="section-title reveal-up" style="--delay:.1s">Choose your <span class="text-gradient">companion</span></h2>
-      <p class="pricing__desc reveal-up" style="--delay:.2s">Price will be revealed soon.</p>
+      <p class="section-eyebrow">Pricing</p>
+      <h2 class="section-title" style="--delay:.1s">Choose your <span class="text-gradient">companion</span></h2>
+      <p class="pricing__desc" style="--delay:.2s">Price will be revealed soon.</p>
     </div>
     
     <div class="pricing__grid">
       <!-- Free Tier -->
-      <div class="pricing-card glass-card liquid-glass reveal-up" style="--delay:.1s">
+      <div class="pricing-card glass-card" style="--delay:.1s">
         <div class="pricing-card__header">
           <h3 class="pricing-card__title">🌟 Lunara</h3>
           <p class="pricing-card__subtitle">Free Tier</p>
@@ -59,7 +59,7 @@ pricing_content = """
       </div>
 
       <!-- Premium Tier -->
-      <div class="pricing-card pricing-card--premium glass-card liquid-glass reveal-up" style="--delay:.2s">
+      <div class="pricing-card pricing-card--premium glass-card" style="--delay:.2s">
         <div class="pricing-card__header">
           <div class="pricing-card__badge">Most Popular</div>
           <h3 class="pricing-card__title">💎 Lunara+</h3>
@@ -84,12 +84,34 @@ pricing_content = """
 """
 
 def get_placeholder(title):
+    if title.lower() == 'roadmap':
+        return '''
+  <section class="generic-page roadmap-section" style="padding-top: 150px; padding-bottom: 80px; min-height: 80vh; text-align: center;">
+    <div class="pricing__header">
+      <p class="section-eyebrow">Lunara Roadmap</p>
+      <h2 class="section-title" style="--delay:.1s">The Future of <span class="text-gradient">Wellness</span></h2>
+      <p class="pricing__desc" style="--delay:.2s" style="margin-bottom: 3rem;">A glimpse into our upcoming features and long-term vision.</p>
+    </div>
+    
+    <div class="roadmap-image-container" style="--delay:.3s; width: 100%; max-width: 1000px; margin: 2rem auto 0; padding: 0;">
+      <img src="roadmap_hero.png" alt="Lunara Future Roadmap" style="
+        width: 100%; 
+        height: auto; 
+        display: block; 
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+        -webkit-mask-composite: source-in;
+        mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%), linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+        mask-composite: intersect;
+      ">
+    </div>
+  </section>
+'''
     return f'''
   <section class="generic-page" style="padding-top: 150px; min-height: 60vh; text-align: center;">
     <div class="pricing__header">
-      <p class="section-eyebrow reveal-up">{title}</p>
-      <h2 class="section-title reveal-up" style="--delay:.1s">Coming <span class="text-gradient">Soon</span></h2>
-      <p class="pricing__desc reveal-up" style="--delay:.2s">We're working hard on this page. Stay tuned!</p>
+      <p class="section-eyebrow">{title}</p>
+      <h2 class="section-title" style="--delay:.1s">Coming <span class="text-gradient">Soon</span></h2>
+      <p class="pricing__desc" style="--delay:.2s">We're working hard on this page. Stay tuned!</p>
     </div>
   </section>
 '''
