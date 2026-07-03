@@ -605,6 +605,108 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
 }
 
 /* ═══════════════════════════════════════════
+   PRICING
+   ═══════════════════════════════════════════ */
+.pricing {
+  position: relative;
+  padding: var(--section-pad) 0;
+  background: var(--clr-bg-warm);
+}
+.pricing__header {
+  text-align: center;
+  max-width: var(--container);
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+}
+.pricing__desc {
+  font-size: 1.05rem;
+  color: var(--clr-text-muted);
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.pricing__grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+.pricing-card {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: rgba(255, 255, 255, 0.5);
+}
+.pricing-card--premium {
+  border: 2px solid var(--clr-pink-light);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 240, 245, 0.6) 100%);
+  transform: scale(1.02);
+}
+.pricing-card__badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--clr-pink), var(--clr-pink-hot));
+  color: #fff;
+  padding: 0.25rem 1rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(255,0,127,0.3);
+}
+.pricing-card__header {
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 0, 127, 0.1);
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.pricing-card__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--clr-text);
+  margin-bottom: 0.25rem;
+}
+.pricing-card__subtitle {
+  font-size: 0.9rem;
+  color: var(--clr-text-muted);
+  margin-bottom: 1rem;
+}
+.pricing-card__price {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--clr-pink);
+  line-height: 1.2;
+}
+.pricing-card__features {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.pricing-card__features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--clr-text);
+  line-height: 1.5;
+}
+.pricing-card__features li svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.pricing-card__features li strong {
+  font-weight: 600;
+  color: var(--clr-text);
+}
+
+/* ═══════════════════════════════════════════
    DOWNLOAD CTA
    ═══════════════════════════════════════════ */
 .download {
@@ -716,6 +818,8 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
 @media (max-width: 1024px) {
   .features__grid { grid-template-columns: 1fr 1fr; }
   .stats__inner { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+  .pricing__grid { grid-template-columns: 1fr; max-width: 600px; gap: 3rem; }
+  .pricing-card--premium { transform: scale(1); }
   .stats__desc { margin: 0 auto; }
   .footer__inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .footer__links { flex-wrap: wrap; gap: 2rem; }
