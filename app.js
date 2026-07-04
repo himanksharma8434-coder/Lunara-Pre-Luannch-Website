@@ -547,4 +547,37 @@
       });
     });
 
+    /* ─────────────────────────────────────────
+       22. CONTACT FORM HANDLER
+       ───────────────────────────────────────── */
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('contact-name').value.trim();
+        const email = document.getElementById('contact-email').value.trim();
+        const subject = document.getElementById('contact-subject').value;
+        const message = document.getElementById('contact-message').value.trim();
+
+        // Build mailto link
+        const mailTo = 'lunarahealthtracker@gmail.com';
+        const mailSubject = encodeURIComponent(`[${subject}] from ${name}`);
+        const mailBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`);
+        
+        window.location.href = `mailto:${mailTo}?subject=${mailSubject}&body=${mailBody}`;
+
+        // Show success state
+        contactForm.innerHTML = `
+          <div class="contact-form__success show">
+            <div class="contact-form__success-icon">
+              <svg viewBox="0 0 24 24" fill="#fff" width="28" height="28"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <h4>Message Ready!</h4>
+            <p>Your email client should open with the message. If it doesn't, you can email us directly at <strong>lunarahealthtracker@gmail.com</strong></p>
+          </div>
+        `;
+      });
+    }
+
 })();
