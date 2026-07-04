@@ -415,26 +415,136 @@
     });
 
     /* ─────────────────────────────────────────
-  } // End if gsap
+       18. PAGE HERO ANIMATIONS (Product/Company)
+       ───────────────────────────────────────── */
+    const pageHeroWatermark = document.querySelector('.page-hero__watermark');
+    if (pageHeroWatermark) {
+      gsap.to(pageHeroWatermark, {
+        opacity: 1,
+        duration: 2,
+        delay: 0.2,
+        ease: 'power2.out',
+      });
 
-     17. TOAST NOTIFICATIONS
-     ───────────────────────────────────────── */
-  const toast = document.getElementById('toast');
-  let toastTimeout;
+      // Scroll parallax for watermark
+      gsap.to(pageHeroWatermark, {
+        scrollTrigger: {
+          trigger: '.page-hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+        y: -100,
+        opacity: 0,
+        ease: 'none',
+        immediateRender: false,
+      });
+    }
 
-  document.querySelectorAll('a[href="#coming-soon"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      
-      if (toast) {
-        clearTimeout(toastTimeout);
-        toast.classList.add('show');
-        
-        toastTimeout = setTimeout(() => {
-          toast.classList.remove('show');
-        }, 3000);
-      }
+    const pageHeroEyebrow = document.querySelector('.page-hero__eyebrow');
+    if (pageHeroEyebrow) {
+      gsap.to(pageHeroEyebrow, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        delay: 0.3,
+        ease: 'power3.out',
+      });
+    }
+
+    const pageHeroTitle = document.querySelector('.page-hero__title');
+    if (pageHeroTitle) {
+      gsap.to(pageHeroTitle, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.5,
+        ease: 'power3.out',
+      });
+    }
+
+    const pageHeroSub = document.querySelector('.page-hero__sub');
+    if (pageHeroSub) {
+      gsap.to(pageHeroSub, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        delay: 0.7,
+        ease: 'power3.out',
+      });
+    }
+
+    // Scroll-out for page hero content
+    const pageHero = document.querySelector('.page-hero');
+    if (pageHero) {
+      gsap.to('.page-hero__content', {
+        scrollTrigger: {
+          trigger: '.page-hero',
+          start: '30% top',
+          end: 'bottom top',
+          scrub: 1,
+        },
+        y: -80,
+        opacity: 0,
+        ease: 'none',
+      });
+    }
+
+    /* ─────────────────────────────────────────
+       19. SCROLL REVEAL OBSERVER (sr-* classes)
+       ───────────────────────────────────────── */
+    const srElements = document.querySelectorAll('.sr-fade-up, .sr-fade-left, .sr-fade-right, .sr-scale-in');
+    if (srElements.length > 0) {
+      const srObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('sr-visible');
+            srObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      });
+
+      srElements.forEach((el) => srObserver.observe(el));
+    }
+
+    /* ─────────────────────────────────────────
+       20. BLOB PARALLAX (all pages)
+       ───────────────────────────────────────── */
+    document.querySelectorAll('.page-hero .hero__blob, .features .hero__blob, .pricing .hero__blob, .generic-page .hero__blob').forEach((blob, i) => {
+      gsap.to(blob, {
+        y: 40 + i * 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: blob.closest('section') || blob.parentElement,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+      });
     });
-  });
+
+    /* ─────────────────────────────────────────
+       21. TOAST NOTIFICATIONS
+       ───────────────────────────────────────── */
+    const toast = document.getElementById('toast');
+    let toastTimeout;
+
+    document.querySelectorAll('a[href="#coming-soon"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if (toast) {
+          clearTimeout(toastTimeout);
+          toast.classList.add('show');
+          
+          toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+          }, 3000);
+        }
+      });
+    });
 
 })();
