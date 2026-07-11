@@ -28,9 +28,10 @@
 
   /* ─────────────────────────────────────────
      2. GSAP REGISTER
+     ───────────────────────────────────────── */
   if (typeof gsap !== 'undefined') {
-       ───────────────────────────────────────── */
     gsap.registerPlugin(ScrollTrigger);
+  }
 
     /* ─────────────────────────────────────────
        3. HERO — Character-by-character headline
